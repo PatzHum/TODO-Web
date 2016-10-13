@@ -181,4 +181,16 @@
         }
 
     }
+    function deactivate_assignment($rid){
+         try{
+            CleanString($rid);
+            $dbh = GenDBH("cohort");
+            $stmt = $dbh->prepare("UPDATE assignments SET active = 0 WHERE rid = :rid");
+            BindInt($stmt, ":rid", $rid);
+
+            $stmt->execute();
+        }catch(Exception $e){
+        }
+       
+    }
 ?>

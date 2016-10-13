@@ -1,5 +1,7 @@
 <html>
 <?php 
+    /*
+    * Creates assignment for the user*/
     include "base.php";
 ?>
 <style>

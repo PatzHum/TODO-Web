@@ -1,4 +1,7 @@
+
 <?php
+    /*
+    * Gets request type and appends to db accordingly*/
     require_once "auth.php";
     require_once "db.php";
 

@@ -1,4 +1,10 @@
 <?php
+    /*
+     * Makes sure the user is logged in, else redirect to login page
+     * Includes
+     *      Bootstrap (CDN)
+     *      JQuery (CDN)
+     */
     require_once "db.php";
     session_start();
 

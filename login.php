@@ -37,7 +37,11 @@
         if ($uid >= 0){
             session_start();
             $_SESSION["uid"] = $uid;
-            header("Location: "."current.php");
+            if (isset($_POST["redir"])){
+                header("Location: " . $_POST["redir"]);
+            }else{
+                header("Location: "."current.php");
+            }
         }else{
 ?>
     <div class="error-bar">
@@ -57,6 +61,13 @@
                 <input class="form-control" type="text" name="username" placeholder="Username"/><br/>
                 <input class="form-control" type="password" name="password" placeholder="Password"/><br/>
                 <input class="form-control" type="submit" value="Submit"/>
+<?php
+                if (isset($_POST["redir"])){
+?>
+                    <input type="hidden" name="redir" value="<?php echo $_POST["redir"]; ?>"/>
+<?php
+                }   
+?>
             </form>
             <p class="text-center"> <a href="register.php">Register</a> </p>
         </div>

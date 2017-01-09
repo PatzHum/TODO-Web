@@ -1,0 +1,150 @@
+.square-btn-bar{
+    background:rgba(12,31,47,0.9);
+    padding-right:20px;
+    padding-left:20px;
+    border-bottom:5px solid rgb(12,31,47);
+    white-space:nowrap;
+    z-index:10;
+}
+.square-btn-bar2{
+    background:rgba(255,255,255,0.2);
+    padding-right:20px;
+    padding-left:20px;
+    white-space:nowrap;
+    z-index:10;
+}
+.square-btn{
+    background:none;
+    padding-right:10px;
+    padding-left:10px; 
+    height:40px;
+    border:none;
+    display:inline-block;
+    color:white;
+    text-transform:uppercase;
+    cursor:pointer;
+}
+.square-btn:hover{
+    box-shadow:0px 0px 3px black;
+    transition:0.2s;
+    color:white;
+}
+.square-btn:visited{
+    color:white;
+}
+.square-btn-right{
+    float:right;
+}
+
+.square-label{
+    background:none;
+    padding-right:10px;
+    padding-left:10px; 
+    line-height:40px;
+    height:40px;
+    border:none;
+    display:inline;
+    font-weight:bold;
+    color:white;
+    text-transform:uppercase;
+}
+.header{
+    background:linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0));
+    font-family:"Roboto";
+    width:100%;
+    text-align:center;
+    margin:0;
+    height:120px;
+    line-height:120px;
+    font-size:4em;
+    color:white;
+} 
+.main-content{
+    background:rgba(12,31,47,0.96);
+    box-shadow:0px 0px 13px black;
+    padding:10px;
+}   
+.main-container{
+    position:absolute;
+    height:100%;
+    margin-top:120px;
+}
+
+body{
+    background:rgb(15, 20, 24);
+    font-family:Abel;
+    color:white;
+}
+h1, h2, h3, h4, h5, h6{
+    font-family:"Roboto", sans-serif;
+}
+
+.fill-center-text{
+    width:100%;
+    text-align:center;
+}
+.nopad{
+    padding:0;
+    margin:0;
+}
+
+.underline{
+    text-decoration:underline;
+}
+
+.inline{
+    display:inline-block;
+}
+
+.float-right{
+    float:right;
+}
+
+.form-nopad{
+    margin:0;
+}
+
+@media (max-width:991px){
+    body{
+        background:rgb(15, 20, 24) !important;
+        margin-top:40px;
+    } 
+    .header{
+        padding-top:25px;
+        height:initial;
+        line-height:initial;
+        padding-top:3%;
+        padding-bottom:3%;
+        font-size:1.5em;
+        box-shadow: 0px 2px 25px black;
+        z-index:1;
+        position:relative;
+        background:rgb(12,31,47) ;
+    }
+    .square-btn-bar{
+        top:0;
+        left:0;
+        border-bottom:none;
+        position:fixed;
+        margin:0;
+        width:100vw;
+        background:rgba(12,31,47,1);
+        box-shadow:0px 2px 25px black;
+        overflow:auto;
+    }
+    .square-btn-bar2{
+        width:100%;
+        margin:0;
+    }
+    .square-btn{
+    }
+    .square-btn-right{
+        float:none;
+        display:inline-block;
+    }
+    .main-content{
+        box-shadow:none;
+    }
+
+}
+

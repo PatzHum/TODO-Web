@@ -33,7 +33,7 @@
 
 
 <?php
-    require "db.php";
+    require "data/db.php";
     if (isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["password-verify"]) && isset($_POST["g-recaptcha-response"])){
         $catch = verify_captcha($_POST["g-recaptcha-response"]);
         if ($catch){

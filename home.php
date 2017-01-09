@@ -1,324 +1,217 @@
+<html>
 <?php
-    require_once "db.php";
     session_start();
-    $assign_list = 0;
+    include_once "data/styles.php";
+    require_once "data/db.php";
+    $logged_in = false;
     if (isset($_SESSION["uid"])){
         $assign_list = get_current_assignments($_SESSION["uid"]); 
+        $logged_in = true;
     }
 ?>
-
-<html>
-    <head>
-        <!-- Bootstrap Includes -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <!--Roboto-->
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300|Roboto+Condensed" rel="stylesheet">
-
-        <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-             })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-            ga('create', 'UA-82380260-1', 'auto');
-            ga('send', 'pageview');
-
-        </script>
-    </head>
-    <link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
-    <style>
-        .datetime{
-            position: absolute;
-            top:70%;
-            left:10%;
-        }
-        .clock{
-            font-size: 100px;
-            position: relative;
-        }
-        .date{
-            font-size: 40px;
-            position: relative;
-        }
-        .welcome{
-            background:none;
-            position:absolute;
-            width: 100%;
-            padding: 0;
-            margin: 0;
-            text-align:center;
-            top:30%;
-            left: 0;
-            font-size: 75px;
-        }
-        .welcome-content{
-            background:none;
-            font-size: 75px;
-            font-family: Abel;
-            border:none;
-            border-bottom: solid 2px white;
-            color:white;
-        }
-        .tiny-content{
-            font-size:10;
-        }
-        .footer{
-            position:absolute;
-            width:100%;
-            padding: 0;
-            margin: 0;
-            bottom:1%;
-            right:1%;
-            text-align:right;
-            cursor:pointer;
-        }
-        .link{
-            font-size: 30px;
-            width:100%;
-            position:relative;
-            display:block;
-            text-align:center;
-            color:white;
-            text-decoration:none;
-        }
-        .link:visited{
-            color:white;
-        }
-        .link:hover{
-            color:white;
-            font-weight:bold;
-        }
-        .link.active{
-            color:white;
-            font-weight:normal;
-        }
-        .welcome-header{
-            margin-bottom:5%;
-        }
-        input{
-            color:white;
-        }
-        body{
-            background-image: url("img/Scape.jpg");
-            background-size: cover;
-            background-attachment: fixed;
-            transition:3s;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-color: #232323;
-            font-family: Abel, serif;
-            color:white;
-            text-shadow: 0px 0px 30px rgba(0,0,0, .5);
-            height:100%;
-        }
-        .greyout{
-            position:fixed;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            background:rgba(0, 0, 0, .2);
-            padding:0;
-            margin:0;
-        }
-        .whiteout{
-            position:absolute;
-            top:0;
-            left:0;
-            width:100%; 
-            height:100%;
-            background:rgba(255, 255, 255, .5);
-            padding:0;
-            margin:0;
-            z-index:-1;
-
-        }
-        body, html{
-            padding:0;
-            margin:0;
-            overflow:hidden;
-        } 
-        .task-item{
-            color:black;
-            text-shadow:none;
-        }
-        .smooth-transition{
-            transition: 1s;
-            -webkit-transition: 1s;
-        }
-        .toggle-bar{
-            position: absolute;
-            right: 0;
-            top:50%;
-            transform:translateY(-50%);
-            height:7%;
-            width:30px;
-            line-height: 100%;
-            background:rgba(0,0,0,.2);
-            color: white;
-            border-radius:10% 0% 0% 10%;
-            text-align:center;
-        }
-    </style>
-    <body  onselectstart="return false;" ondragstart="return false;" style="cursor:default;">
-        <div id="main-content" class="smooth-transition col-md-9" style="height:100%;width:100%;">
-        <div class="greyout"></div>
-        <div id="name-wrapper" class="welcome">
-            <div id="welcome" class="welcome-header" >Good day</div>
-            <a href="https://google.com" class="link">Google</a>
-            <a href="https://facebook.com" class="link">Facebook</a>
-            <a href="https://youtube.com" class="link">Youtube</a>
+<head>
+    <title>Home</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> 
+</head>
+<style>
+    
+    html, body{
+        font-family: Roboto;
+        transition:1s;
+        transition-timing-function:ease-in-out;
+        margin:0;
+    }
+    body{
+        background:black;
+        margin-top:7%
+    }
+    .tod-greet{
+        font-size:3.5em;
+        font-family:Roboto;
+        width:100%;
+        text-align:center;
+        white-space:nowrap;
+    }
+    .clock{
+        font-size:7.5em;
+        font-family:Roboto;
+        width:100%;
+        text-align:center;
+        font-weight:bold;
+    }
+    .clock-seconds{
+        color:rgba(255,255,255,0.4);
+        display:inline;
+    }
+    .date{
+        text-transform:uppercase;
+        text-align:center;
+    }
+    .item{
+        width:100%;
+        font-size:1.2em;
+    }
+    .item-name{
+        color:rgba(255,255,255,0.8);
+        font-weight:bold;
+        display:inline;
+        width:100%;
+    }
+    .pad-left{
+        padding-left:50px;
+    }
+    .text-right{
+        text-align:right;
+    }
+    .border-underline{
+        border-bottom: 1px solid white;
+    }
+    .pad-right{
+        padding-right:50px;
+    }
+    .form-textbox{
+        margin-bottom: 15px;
+        border:none;
+        border-bottom: 2px solid white;
+        font-size: 1em;
+        width:100%;
+        background:none;
+        font-family:Roboto;
+        padding:5px;
+    }
+    input:-webkit-autofill{
+        background:none;
+        -webkit-box-shadow: 0 0 0px 1000px white inset;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="tod-greet"></div>
         </div>
-        <p id="change-name" style="display: none" class="footer tiny-content" onclick="resetName()">Change Name</p>
-        <div id="new-user" class="welcome" style="display: none">
-            <input type="text" class="welcome-content" id="user-name" placeholder="Hi, my name is "/>
-            <input type="button" class="welcome-content" onclick="submit_new_user()" value="Submit"/>
+        <div class="row">
+            <div class="clock"></div>
         </div>
-        <div class="datetime">
-            <div id="clock" class="clock">
-            </div>
-            <div id="date" class="date">
-            </div>
+        <div class="row">
+            <h1 class="date"></h1>
         </div>
-        <div class="toggle-bar" onclick="toggleTasks()">
-           <h1 id="toggle-bar-text">&#10092;</h1> 
-        </div>
-        </div>
-        <div id="sidebar" class="smooth-transition col-md-3" style="height:100%; width:0;">
-            <div class="whiteout">&nbsp;</div>
-            &nbsp;
-            <?php
-                if ($assign_list != 0){
-?>
-                    <h2>Upcoming Tasks</h2>
+
+       <div class="col-md-6 col-md-push-3">
 <?php
-                    foreach ($assign_list as $assign){
-                        echo "<h4 class=\"task-item\">" . $assign["name"] . " " . $assign["details"] . "</h4>";
-                    } 
-                }else{
+    if ($logged_in){
 ?>
-                <form action="login.php" method="post">
-                    <input type="hidden" name="redir" value="home.php"/>
-                    <input type="submit" class="btn btn-default" value="Login"/>
-                </form>
+            <div class="row">
+                <h3 class="text-center">Upcoming</h1>
+            </div>
+            <div class="row">
+                <?php
+                    $last = "";
+                    foreach($assign_list as $assign){
+                ?>
+                <b>
+                <?php
+                        $duedate = new DateTime($assign["due"]);
+                        $today = new DateTime(date("Y-m-d")); 
+                        $diff = $today->diff($duedate);
+                        $ddiff = 365 * $diff ->y + 31 * $diff->m + $diff->d;
+
+                        $wdiff = $ddiff . " days";
+
+                        if ($ddiff == 0){
+                            $wdiff = "today";
+                        }else if($ddiff == 1){
+                            $wdiff = "tomorrow";
+                        }else if($ddiff > 30){
+                            $months = (int)($ddiff / 30); 
+                            $wdiff = $months . " month";
+                            if ($months > 1){
+                                $wdiff = $wdiff . "s";
+                            } 
+                        }else if ($ddiff > 6){
+                            $weeks = floor(($ddiff + 1) / 7);
+                            $wdiff = $weeks . " week";
+                            if ($weeks > 1){
+                                $wdiff = $wdiff . "s";
+                            }
+                        }
+                        if ($wdiff != $last){
+                ?>
+                <h4 class="nopad border-underline" style="padding-top:5px">
+                <b>
+                <?php
+                            echo $wdiff;
+                ?>
+                </b>
+                </h4>
+                <?php
+                            $last = $wdiff;
+                        }
+                ?>
+                </b>
+
+                <div class="item">
+                <div class="item-name">
+                <?php
+                        echo $assign["name"];
+                ?>
+                </div>
+                <?php
+                        echo ' ' . $assign["details"];
+                ?>
+                </div>
+                <?php
+                    }
+                ?>
+            </div>
 <?php
-                }
-            ?>
+    }else{
+?>
+        <form action="login.php" method="post">
+            <input class="form-textbox" type="text" name="username" placeholder="Username"/><br/>
+            <input class="form-textbox" type="password" name="password" placeholder="Password"/><br/>
+            <input class="form-control" style="border-radius:0;" type="submit" value="Login"/>
+            <input class="hidden" type="hidden" name="redir" value="https://home.hypersystems.me">
+        </form>
+<?php
+    }
+?>
         </div>
-    </body>
+    </div>
+</body>
+<script>
 
-    <script> 
-        var sidebar_shown = false;
-        function toggleTasks(){
-            if (sidebar_shown){
-                hideTasks();
-            }else{
-                showTasks();
-            }
-            sidebar_shown = !sidebar_shown;
+    function tod_greet_tool(){
+        var time = new Date(); 
+        var h = time.getHours();
+        var ostring = "Good Morning";
+        var bgCol = "rgb(206, 95, 37)";
+        if (h >= 18 || h <= 6){
+            //Evening from 6PM to 6 AM
+            ostring = "Good Evening"; 
+            bgCol = "rgb(15, 20, 24)";
+        }else if (h >= 12 && h <= 17){
+            ostring = "Good Afternoon";
+            bgCol = "rgb(37, 132, 206)";
         }
-        function hideTasks(){
-            $("#sidebar").fadeOut();
-            $("#sidebar").css("width", "0%");
-            $("#main-content").css("width", "100%");
-            $("#toggle-bar-text").html("&#10092;");
-        }
-        function showTasks(){
-            $("#sidebar").fadeIn();
-            $("#sidebar").css("width", "25%");
-            $("#main-content").css("width", "75%");
-            $("#toggle-bar-text").html("&#10093;");
+        $(".tod-greet").html(ostring);
+        $(".date").html(time.toDateString());
+        $("body").css("background", bgCol);
+        setTimeout(tod_greet_tool, 60000);
+    }
+    tod_greet_tool();
+    function clock_tool(){
+        var time = new Date(); 
+        var h = time.getHours();
+        var m = time.getMinutes();
+        var s = time.getSeconds();
 
-        }
-        var str_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-        var str_months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        if (m < 10) {m = "0" + m;}
+        if (s < 10) {s = "0" + s;}
 
-        function parseCookie(){
-            var raw = document.cookie;
-            var broken = raw.split(';');
-            var parsed = [];
-            for (i = 0; i < broken.length; ++i){
-                var j = broken[i].split('=');
-                if (j.length != 2){
-                    continue;
-                }else{
-                    parsed[j[0].trim()] = j[1].trim();
-                }
-            }
-            return parsed;
-        }
+        $(".clock").html(h + ":" + m + "<div class=\"clock-seconds\">:" + s + "</div>");
 
-        function buildCookie(data){
-            var built = "";
-            for (var i in data){
-                built =  built  + i + "=" + data[i] + " "; 
-            }
-            document.cookie = built;
-        }
-
-        var cookieData = parseCookie();
-        
-
-        function submit_new_user(){
-            document.cookie = "name=" + document.getElementById("user-name").value;
-            setTimeout(location.reload(), 100);
-        }
-        
-        var bgs = ["Scape.jpg", "tundra.jpg", "bridge.jpeg", "mountain.jpg", "brooklyn.jpg", "nightscape.jpeg", "water.jpeg"];
-        bgs.forEach(function(img){
-                new Image().src = "img/" + img;
-        });
-        function fade_bg(index){
-             
-            $(document.body).css("background-image", "url(img/" + bgs[index % bgs.length] + ")");
-            setTimeout(function(){
-                    fade_bg(index + 1);
-                }, 120000);
-        }
-        fade_bg(Math.floor(Math.random() * bgs.length));
-        function updateClock(){
-            var time = document.getElementById("clock");
-            var date = document.getElementById("date");
-
-            var d = new Date();
-            time.innerHTML = d.getHours() + ":" + ("0" + d.getMinutes()).slice(-2);
-
-            date.innerHTML = str_days[d.getDay()] + ", " + str_months[d.getMonth()] + " " + d.getDate() + " " + d.getFullYear();
-             
-            if (cookieData.hasOwnProperty("name") && cookieData['name'] != ""){
-                var TOD = "Evening";
-                if (d.getHours() < 12){
-                    TOD = "Morning"
-                     
-                }else if (d.getHours() >= 12 && d.getHours() < 18){
-                    TOD = "Afternoon"
-                }
-                document.getElementById("welcome").innerHTML = "Good " + " " + TOD + ", " + cookieData["name"];
-                document.getElementById("change-name").style="";
-            }else{
-                document.getElementById("new-user").style="";
-                document.getElementById("name-wrapper").style="display: none";
-            }
-
-            setTimeout(updateClock, 1000);
-        }
-
-        function resetName(){
-            cookieData["name"] = "";
-            buildCookie(cookieData);
-            location.reload();
-        }
-
-        updateClock();
-        hideTasks();
-   </script>
+        setTimeout(clock_tool, 500);
+    }
+    clock_tool();
+</script>
 </html>
-
-
